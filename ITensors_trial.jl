@@ -1,4 +1,4 @@
-using ITensors
+using ITensors;
 let
   i = Index(10)           # index of dimension 10
   j = Index(20)           # index of dimension 20
@@ -9,4 +9,4 @@ let
   nothing
 end
 
-println(M)
+# println(M)    # won't output because the calculation is in let-...-end environment
