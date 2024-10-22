@@ -11,9 +11,9 @@ sites = siteinds("S=1/2",N);
 os = OpSum();
 for j=1:N-1
   global os += -1.7,"Sz",j,"Sz",j+1;
-  os += -1.19,"Sx",j;
+  os += -0.43,"Sx",j;
 end
-os += -1.19,"Sx",N;
+os += -0.43,"Sx",N;
 
 H = MPO(os,sites);
 nsweeps = 3;
@@ -26,7 +26,7 @@ cutoff = [1E-8];
 psi0 = random_mps(sites); # initialization of random state
 groundEnergy_DMRG,groundState_DMRG = dmrg(H,psi0;nsweeps,maxdim,cutoff)
 
-println("J=1.7, g=-1.19")
+println("J=1.7, g=-0.43")
 println(groundState_DMRG)
 
 println("Sz_expectation")
