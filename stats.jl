@@ -59,5 +59,5 @@ heatmap(N42sweep10dim100_J,N42sweep10dim100_h,phaseDia[2]/42,c=cgrad(:deep, rev=
 
 
 ##
-heatmap(N42sweep10dim100_J,N42sweep10dim100_h,phaseDia[3]*log(2),c=cgrad(:magma, rev=false),title="Maximum bipartite entropy of entanglement (bit)",xlabel="J (energy unit)",ylabel="h (energy unit)") #clim,xticks
+heatmap(N42sweep10dim100_J,N42sweep10dim100_h,phaseDia[3]/log(2),c=cgrad(:magma, rev=false),title="Maximum bipartite entropy of entanglement (bit)",xlabel="J (energy unit)",ylabel="h (energy unit)") #clim,xticks
 
