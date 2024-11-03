@@ -1,10 +1,28 @@
 
 using ITensors, ITensorMPS
+
+function SvonNeumann(psi::MPS, N::Int, sites)
+    SvN = fill(0.0, N)
+    for b in 2:N-1
+        orthogonalize!(psi, b)
+        _,S = svd(psi[b], (linkind(psi, b-1), sites[b]))
+        for n in dim(S, 1)
+            p = S[n,n]^2
+            SvN[b] -= p * log(p)
+        end
+        #println("$(SvN[b])")
+    end
+    return SvN
+end
+
+
 ##
 Nsites = [3,5,7,10,13,17,21,26,31,37,43,50,58,67,78,89,100,115,132,150];
 magz_N = [];
 energy_N = [];
+Svn_N = [];
 for N in Nsites
+    max_SvonN = 0
     J = -1;
     h = 0;
     random_init = true
@@ -21,7 +39,7 @@ for N in Nsites
         os += J,"Sz",j,"Sz",j+1;
         os += -h,"Sz",j
     end
-    os += -h,"Sz",N;
+    #os += -h,"Sz",N;
 
     H = MPO(os,sites);
     cutoff = [1E-12]; # desired truncation error
@@ -47,17 +65,18 @@ for N in Nsites
     #println(groundState_DMRG)
 
     magz = expect(groundState_DMRG,"Sz");
-    push!(magz_N,array(magz))
-    push!(energy_N,groundEnergy_DMRG)
-    println(N)
-    println(groundEnergy_DMRG/N)
+    Svn=array(SvonNeumann(groundState_DMRG, N,sites))
+    push!(magz_N,array(magz));
+    push!(energy_N,groundEnergy_DMRG);
     #magy = expect(groundState_DMRG,"Sy")
+    push!(Svn_N,Svn);
 
-    ##
-
-
-
+    println(N)
 end
 
-##
-print(magz_N)
+println(energy_N)
+using JLD2;
+save_object("magz_N_J=-1,try1656.jld2", magz_N)
+save_object("energy_N_J=-1,try1656.jld2", energy_N)
+save_object("Svn_N_J=-1,try1656.jld2", Svn_N)
+

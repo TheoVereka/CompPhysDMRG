@@ -26,4 +26,3 @@ Jn1h0sweep10dim100_NsitesVStotalTime_s=[ 0.015527,0.026337,0.032879,0.072181,0.2
 Jn1h0sweep10dim100_NsitesVSallocatedMemory_GiB=[ 0.007,0.028,0.048,0.126,0.513, 1.546,5.249,8.337,11.098 ,14.869 ,18.620,21.118 ,27.785 ,33.360 ,34.478 ,46.303,45.732 ,61.221,69.520 ,82.695 ];
 Jn1h0sweep10dim100_NsitesVS=[];
 Jn1h0sweep10dim100_NsitesVS=[];
-
