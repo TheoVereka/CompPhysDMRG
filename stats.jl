@@ -1,4 +1,7 @@
+using Plots;
+using JLD2;
 
+##
 N42Jn1h0dim200_sweepsVStime1=[0.079,0.735,2.492,4.665,4.892,4.785,4.616,4.677,4.390,4.508,4.222,3.904,3.749,3.509,2.901,2.917,2.710,2.497,1.875,1.971];
 N42Jn1h0dim200_sweepsVStime2=[0.087,0.779,2.533,4.035,4.092,4.055,3.869,3.636,3.564,3.430,3.225,3.301,3.163,2.810,3.154,2.565,2.761,2.520,2.551];
 
@@ -24,4 +27,37 @@ Jn1h0sweep10dim100_Nsites=[3,5,7,10,13,17,21,26,31,37,43,50,58,67,78,89,100,115,
 
 Jn1h0sweep10dim100_NsitesVStotalTime_s=[ 0.015527,0.026337,0.032879,0.072181,0.287537,0.977319,3.438793,5.226094,7.160582,10.022806,12.263039,13.831658,18.602673,22.126155,22.263500,30.789424,30.157086,40.658074,46.365459,54.597199];
 Jn1h0sweep10dim100_NsitesVSallocatedMemory_GiB=[ 0.007,0.028,0.048,0.126,0.513, 1.546,5.249,8.337,11.098 ,14.869 ,18.620,21.118 ,27.785 ,33.360 ,34.478 ,46.303,45.732 ,61.221,69.520 ,82.695 ];
+
+
+
+##
+
+
+
+
+
+
+
+##
+N42sweep10dim100_h = 0.01:0.11:2.00
+N42sweep10dim100_J = -2:0.15:1.5
+phaseDia=[];
+push!(phaseDia,Array(load_object("avgMz_N42sweep10dim100,try1745.jld2")));
+push!(phaseDia,Array(load_object("energy_N42sweep10dim100,try1745.jld2")));
+push!(phaseDia,Array(load_object("maxSvn_N42sweep10dim100,try1745.jld2")));
+for i = 1:3
+    phaseDia[i]=transpose(reshape(phaseDia[i],(length(N42sweep10dim100_J),length(N42sweep10dim100_h))))
+end
+
+
+##
+heatmap(N42sweep10dim100_J,N42sweep10dim100_h,phaseDia[1],c=cgrad(:curl, rev=false),title="Average magnetization over spin chain (μ_B)",xlabel="J (energy unit)",ylabel="h (energy unit)") #clim,xticks
+
+
+##
+heatmap(N42sweep10dim100_J,N42sweep10dim100_h,phaseDia[2]/42,c=cgrad(:deep, rev=true),title="Energy of the DMRG ground state (energy unit)",xlabel="J (energy unit)",ylabel="h (energy unit)",clim=(-1.5,-0.25),xlim=(-2,1.5),ylim=(0,2)) #clim,xticks
+
+
+##
+heatmap(N42sweep10dim100_J,N42sweep10dim100_h,phaseDia[3]*log(2),c=cgrad(:magma, rev=false),title="Maximum bipartite entropy of entanglement (bit)",xlabel="J (energy unit)",ylabel="h (energy unit)") #clim,xticks
 
