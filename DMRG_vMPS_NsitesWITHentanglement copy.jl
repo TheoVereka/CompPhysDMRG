@@ -5,7 +5,7 @@ function SvonNeumann(psi::MPS, N::Int, sites)
     SvN = fill(0.0, N)
     for b in 2:N-1
         orthogonalize!(psi, b)
-        _,S = svd(psi[b], (linkind(psi, b-1), sites[b]))
+        U,S,V = svd(psi[b], (linkind(psi, b-1), sites[b]))
         for n in dim(S, 1)
             p = S[n,n]^2
             SvN[b] -= p * log(p)
@@ -23,7 +23,7 @@ energy_N = [];
 Svn_N = [];
 for N in Nsites
     max_SvonN = 0
-    J = -1;
+    J = 1;
     h = 0;
     random_init = true
     nsweeps = 10; 
@@ -76,7 +76,7 @@ end
 
 println(energy_N)
 using JLD2;
-save_object("magz_N_J=-1,try1656.jld2", magz_N)
-save_object("energy_N_J=-1,try1656.jld2", energy_N)
-save_object("Svn_N_J=-1,try1656.jld2", Svn_N)
+save_object("magz_N_J=1,try1737.jld2", magz_N)
+save_object("energy_N_J=1,try1737.jld2", energy_N)
+save_object("Svn_N_J=1,try1737.jld2", Svn_N)
 
